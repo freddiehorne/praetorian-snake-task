@@ -1,0 +1,16 @@
+.gameBoard {
+	width: 500px;
+	height: 500px;
+	border: 2px solid #000;
+	margin: 50px auto;
+	position: relative;
+	background-color: #b8e1ee;
+}
+
+.snake {
+	position: absolute;
+	height: 1%;
+	width: 1%;
+	background-color: #006800;
+	border: 1px solid #000;
+}
