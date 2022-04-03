@@ -113,14 +113,23 @@ class App extends Component {
 		return (
 			<>
 				{this.state.screen === 0 && (
-					<div onKeyDown={this.onArrowDown} tabIndex="0">
-						<h1>Welcome, enter your name and click Start</h1>
-						<StartButton startGame={this.startGame} />
-						<StopButton stopGame={this.onGameOver} />
-						<Input onInput={this.onInput} />
-						<Timer minutes={this.state.minutes} seconds={this.state.seconds} />
-						<GameBoard snakePosition={this.state.snakePosition} />
+					<div className="main" onKeyDown={this.onArrowDown} tabIndex="0">
 						<ApiButton goToLeaderboard={this.goToLeaderboard} />
+						<h1>Welcome, enter your name and click Start</h1>
+						<div className="topContainer">
+							<div>
+								<div className="buttons">
+									<StartButton startGame={this.startGame} />
+									<StopButton stopGame={this.onGameOver} />
+								</div>
+								<Input onInput={this.onInput} />
+							</div>
+							<Timer
+								minutes={this.state.minutes}
+								seconds={this.state.seconds}
+							/>
+						</div>
+						<GameBoard snakePosition={this.state.snakePosition} />
 					</div>
 				)}
 				{this.state.screen === 1 && (
