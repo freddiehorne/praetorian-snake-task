@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { initialState } from "./initialState";
-import { getApiData } from "./utils";
-import "./App.css";
-import GameBoard from "./components/GameBoard";
+// import { getApiData } from "./utils";
+import axios from "axios";
 import StartButton from "./components/StartButton";
 import StopButton from "./components/StopButton";
 import Input from "./components/Input";
 import Timer from "./components/Timer";
+import GameBoard from "./components/GameBoard";
 import ApiButton from "./components/ApiButton";
 import Leaderboard from "./components/Leaderboard";
+import "./App.css";
 
 let snakeMoveInterval;
 let timerInterval;
@@ -17,8 +18,20 @@ class App extends Component {
 	state = initialState;
 
 	componentDidMount() {
-		getApiData();
+		this.getApiData();
 	}
+
+	getApiData = async () => {
+		try {
+			const result = await axios.get(
+				"https://612e9e1ed11e5c001755865e.mockapi.io/api/v1/results"
+			);
+			this.setState({ leaderboardData: result.data });
+			console.log(result.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	componentDidUpdate() {
 		this.onCrashWithWall();
@@ -36,12 +49,6 @@ class App extends Component {
 				}
 			}, 1000);
 		}
-	};
-
-	stopGame = () => {
-		clearInterval(snakeMoveInterval);
-		clearInterval(timerInterval);
-		this.setState(initialState);
 	};
 
 	onInput = (e) => this.setState({ input: e.target.value });
@@ -107,8 +114,9 @@ class App extends Component {
 			<>
 				{this.state.screen === 0 && (
 					<div onKeyDown={this.onArrowDown} tabIndex="0">
+						<h1>Welcome, enter your name and click Start</h1>
 						<StartButton startGame={this.startGame} />
-						<StopButton stopGame={this.stopGame} />
+						<StopButton stopGame={this.onGameOver} />
 						<Input onInput={this.onInput} />
 						<Timer minutes={this.state.minutes} seconds={this.state.seconds} />
 						<GameBoard snakePosition={this.state.snakePosition} />
@@ -116,7 +124,10 @@ class App extends Component {
 					</div>
 				)}
 				{this.state.screen === 1 && (
-					<Leaderboard backToGame={this.backToGame} />
+					<Leaderboard
+						backToGame={this.backToGame}
+						leaderboardData={this.state.leaderboardData}
+					/>
 				)}
 			</>
 		);
