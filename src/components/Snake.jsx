@@ -1,9 +1,10 @@
 const Snake = (props) => {
+	const { snakePosition } = props;
 	return (
 		<div
 			style={{
-				top: `${props.snakePosition[0]}%`,
-				left: `${props.snakePosition[1]}%`,
+				top: `${snakePosition[0]}%`,
+				left: `${snakePosition[1]}%`,
 			}}
 			className="snake"
 		></div>

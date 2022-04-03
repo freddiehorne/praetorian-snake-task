@@ -27,19 +27,19 @@ class App extends Component {
 				"https://612e9e1ed11e5c001755865e.mockapi.io/api/v1/results"
 			);
 			this.setState({ leaderboardData: result.data });
-			console.log(result.data);
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
 	sendResult = async () => {
+		const { input, minutes, seconds } = this.state;
 		try {
 			const response = await axios.post(
 				"https://612e9e1ed11e5c001755865e.mockapi.io/api/v1/results",
 				{
-					name: this.state.input,
-					time: { minutes: this.state.minutes, seconds: this.state.seconds },
+					name: input,
+					time: { minutes, seconds },
 				}
 			);
 			console.log(response);
@@ -112,8 +112,9 @@ class App extends Component {
 	};
 
 	onGameOver = () => {
+		const { input, minutes, seconds } = this.state;
 		alert(
-			`Game Over ${this.state.input}! You lasted ${this.state.minutes} minutes and ${this.state.seconds} seconds`
+			`Game Over ${input}! You lasted ${minutes} minutes and ${seconds} seconds`
 		);
 		this.setState(initialState);
 		clearInterval(snakeMoveInterval);
