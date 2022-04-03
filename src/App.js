@@ -18,16 +18,31 @@ class App extends Component {
 	state = initialState;
 
 	componentDidMount() {
-		this.getApiData();
+		this.getResults();
 	}
 
-	getApiData = async () => {
+	getResults = async () => {
 		try {
 			const result = await axios.get(
 				"https://612e9e1ed11e5c001755865e.mockapi.io/api/v1/results"
 			);
 			this.setState({ leaderboardData: result.data });
 			console.log(result.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	sendResult = async () => {
+		try {
+			const response = await axios.post(
+				"https://612e9e1ed11e5c001755865e.mockapi.io/api/v1/results",
+				{
+					name: this.state.input,
+					time: { minutes: this.state.minutes, seconds: this.state.seconds },
+				}
+			);
+			console.log(response);
 		} catch (error) {
 			console.log(error);
 		}
@@ -103,6 +118,7 @@ class App extends Component {
 		this.setState(initialState);
 		clearInterval(snakeMoveInterval);
 		clearInterval(timerInterval);
+		this.sendResult();
 	};
 
 	goToLeaderboard = () => this.setState({ screen: 1 });
