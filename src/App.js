@@ -10,6 +10,8 @@ import GameBoard from "./components/GameBoard";
 import ApiButton from "./components/ApiButton";
 import Leaderboard from "./components/Leaderboard";
 import "./App.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 let snakeMoveInterval;
 let timerInterval;
@@ -47,11 +49,12 @@ class App extends Component {
 	componentDidUpdate() {
 		this.onCrashWithWall();
 		this.checkIfEat();
+		this.onCrashWithSelf();
 	}
 
 	startGame = () => {
 		if (this.state.input.length > 2) {
-			snakeMoveInterval = setInterval(this.onSnakeMove, 50);
+			snakeMoveInterval = setInterval(this.onSnakeMove, this.state.speed);
 			timerInterval = setInterval(() => {
 				const { seconds, minutes } = this.state;
 				this.setState({ seconds: seconds + 1 });
@@ -94,48 +97,90 @@ class App extends Component {
 	};
 
 	onSnakeMove = () => {
-		let snake = [...this.state.snakePosition];
+		let blocks = [...this.state.snakeBlocks];
+		let head = [...blocks[blocks.length - 1]];
 		switch (this.state.direction) {
 			case "LEFT":
-				snake = [snake[0], snake[1] - 1];
+				head = [head[0], head[1] - 1];
 				break;
 			case "RIGHT":
-				snake = [snake[0], snake[1] + 1];
+				head = [head[0], head[1] + 1];
 				break;
 			case "UP":
-				snake = [snake[0] - 1, snake[1]];
+				head = [head[0] - 1, head[1]];
 				break;
 			case "DOWN":
-				snake = [snake[0] + 1, snake[1]];
+				head = [head[0] + 1, head[1]];
 				break;
 			default:
 				return;
 		}
-		this.setState({ snakePosition: snake });
+		blocks.push(head);
+		blocks.shift();
+		this.setState({ snakeBlocks: blocks });
+	};
+
+	snakeGrow = () => {
+		let extraBlock = [...this.state.snakeBlocks];
+		extraBlock.unshift([]);
+		this.setState({ snakeBlocks: extraBlock });
+	};
+
+	increaseSnakeSpeed = () => {
+		const { speed } = this.state;
+		if (speed > 10) {
+			clearInterval(snakeMoveInterval);
+			this.setState({ speed: speed - 5 });
+			snakeMoveInterval = setInterval(this.onSnakeMove, this.state.speed);
+		}
 	};
 
 	checkIfEat = () => {
-		const { foodPosition, snakePosition } = this.state;
-		if (
-			snakePosition[0] === foodPosition[1] &&
-			snakePosition[1] === foodPosition[0]
-		) {
+		const { foodPosition, snakeBlocks, appleCount } = this.state;
+		let head = snakeBlocks[snakeBlocks.length - 1];
+		if (head[0] === foodPosition[1] && head[1] === foodPosition[0]) {
 			this.setState({ foodPosition: getRandomCoordinates() });
+			this.setState({ appleCount: appleCount + 1 });
+			this.snakeGrow();
+			this.increaseSnakeSpeed();
 		}
 	};
 
 	onCrashWithWall = () => {
-		let snake = this.state.snakePosition;
-		if (snake[0] < 0 || snake[0] > 99 || snake[1] < 0 || snake[1] > 99) {
+		let head = this.state.snakeBlocks[this.state.snakeBlocks.length - 1];
+		if (head[0] < 0 || head[0] > 99 || head[1] < 0 || head[1] > 99) {
 			this.onGameOver();
 		}
 	};
 
+	onCrashWithSelf = () => {
+		let snakeBody = [...this.state.snakeBlocks];
+		let head = snakeBody[snakeBody.length - 1];
+		snakeBody.pop();
+		snakeBody.forEach((block) => {
+			if (head[0] === block[0] && head[1] === block[1]) {
+				this.onGameOver();
+			}
+		});
+	};
+
 	onGameOver = () => {
-		const { input, minutes, seconds } = this.state;
-		alert(
-			`Game Over ${input}! You lasted ${minutes} minutes and ${seconds} seconds`
+		const { input, minutes, seconds, appleCount } = this.state;
+		toast.success(
+			`Game Over ${input}! You lasted ${minutes} minutes and ${seconds} seconds and the snake ate ${appleCount} apples`,
+			{
+				position: "top-center",
+				autoClose: 10000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+			}
 		);
+		// alert(
+		// 	`Game Over ${input}! You lasted ${minutes} minutes and ${seconds} seconds and the snake ate ${appleCount} apples`
+		// );
 		this.setState(initialState);
 		clearInterval(snakeMoveInterval);
 		clearInterval(timerInterval);
@@ -165,10 +210,23 @@ class App extends Component {
 								minutes={this.state.minutes}
 								seconds={this.state.seconds}
 							/>
+							<h2>Apples: {this.state.appleCount}</h2>
 						</div>
+
 						<GameBoard
-							snakePosition={this.state.snakePosition}
+							snakeBlocks={this.state.snakeBlocks}
 							foodPosition={this.state.foodPosition}
+						/>
+						<ToastContainer
+							position="top-center"
+							autoClose={8000}
+							hideProgressBar={false}
+							newestOnTop={false}
+							closeOnClick
+							rtl={false}
+							pauseOnFocusLoss
+							draggable
+							pauseOnHover
 						/>
 					</div>
 				)}

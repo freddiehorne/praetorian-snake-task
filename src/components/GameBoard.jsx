@@ -4,7 +4,7 @@ import Snake from "./Snake";
 const GameBoard = (props) => {
 	return (
 		<div className="gameBoard">
-			<Snake snakePosition={props.snakePosition} />
+			<Snake snakeBlocks={props.snakeBlocks} />
 			<Food foodPosition={props.foodPosition} />
 		</div>
 	);

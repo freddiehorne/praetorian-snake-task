@@ -7,11 +7,16 @@ export const getRandomCoordinates = () => {
 };
 
 export const initialState = {
-	snakePosition: [25, 30],
+	snakeBlocks: [
+		[25, 30],
+		[25, 31],
+	],
+	foodPosition: getRandomCoordinates(),
 	direction: "RIGHT",
 	input: "",
 	minutes: 0,
 	seconds: 0,
 	screen: 0,
-	foodPosition: getRandomCoordinates(),
+	appleCount: 0,
+	speed: 150,
 };
