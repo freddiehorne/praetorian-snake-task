@@ -19,4 +19,5 @@ export const initialState = {
 	screen: 0,
 	appleCount: 0,
 	speed: 150,
+	gameStarted: false,
 };

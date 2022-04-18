@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { initialState, getRandomCoordinates } from "./utils";
 import { API_URL } from "./config";
+import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import StartButton from "./components/StartButton";
 import StopButton from "./components/StopButton";
@@ -10,7 +11,6 @@ import GameBoard from "./components/GameBoard";
 import ApiButton from "./components/ApiButton";
 import Leaderboard from "./components/Leaderboard";
 import "./App.css";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 let snakeMoveInterval;
@@ -63,6 +63,7 @@ class App extends Component {
 					this.setState({ seconds: 0 });
 				}
 			}, 1000);
+			this.setState({ gameStarted: true });
 		}
 	};
 
@@ -178,13 +179,10 @@ class App extends Component {
 				progress: undefined,
 			}
 		);
-		// alert(
-		// 	`Game Over ${input}! You lasted ${minutes} minutes and ${seconds} seconds and the snake ate ${appleCount} apples`
-		// );
 		this.setState(initialState);
 		clearInterval(snakeMoveInterval);
 		clearInterval(timerInterval);
-		// this.sendResult();
+		this.sendResult();
 	};
 
 	goToLeaderboard = () => this.setState({ screen: 1 });
@@ -216,6 +214,7 @@ class App extends Component {
 						<GameBoard
 							snakeBlocks={this.state.snakeBlocks}
 							foodPosition={this.state.foodPosition}
+							gameStarted={this.state.gameStarted}
 						/>
 						<ToastContainer
 							position="top-center"
