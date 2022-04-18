@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { initialState } from "./initialState";
-// import { getApiData } from "./utils";
+import { initialState, getRandomCoordinates } from "./utils";
+import { API_URL } from "./config";
 import axios from "axios";
 import StartButton from "./components/StartButton";
 import StopButton from "./components/StopButton";
@@ -23,33 +23,30 @@ class App extends Component {
 
 	getResults = async () => {
 		try {
-			const result = await axios.get(
-				"https://612e9e1ed11e5c001755865e.mockapi.io/api/v1/results"
-			);
+			const result = await axios.get(API_URL);
 			this.setState({ leaderboardData: result.data });
 		} catch (error) {
 			console.log(error);
+			alert("API is down");
 		}
 	};
 
 	sendResult = async () => {
 		const { input, minutes, seconds } = this.state;
 		try {
-			const response = await axios.post(
-				"https://612e9e1ed11e5c001755865e.mockapi.io/api/v1/results",
-				{
-					name: input,
-					time: { minutes, seconds },
-				}
-			);
-			console.log(response);
+			await axios.post(API_URL, {
+				name: input,
+				time: { minutes, seconds },
+			});
 		} catch (error) {
 			console.log(error);
+			alert("API is down");
 		}
 	};
 
 	componentDidUpdate() {
 		this.onCrashWithWall();
+		this.checkIfEat();
 	}
 
 	startGame = () => {
@@ -69,19 +66,30 @@ class App extends Component {
 	onInput = (e) => this.setState({ input: e.target.value });
 
 	onArrowDown = (e) => {
+		const { direction } = this.state;
 		switch (e.key) {
 			case "ArrowLeft":
-				this.setState({ direction: "LEFT" });
+				if (direction !== "RIGHT") {
+					this.setState({ direction: "LEFT" });
+				}
 				break;
 			case "ArrowRight":
-				this.setState({ direction: "RIGHT" });
+				if (direction !== "LEFT") {
+					this.setState({ direction: "RIGHT" });
+				}
 				break;
 			case "ArrowUp":
-				this.setState({ direction: "UP" });
+				if (direction !== "DOWN") {
+					this.setState({ direction: "UP" });
+				}
 				break;
 			case "ArrowDown":
-				this.setState({ direction: "DOWN" });
+				if (direction !== "UP") {
+					this.setState({ direction: "DOWN" });
+				}
 				break;
+			default:
+				return;
 		}
 	};
 
@@ -100,8 +108,20 @@ class App extends Component {
 			case "DOWN":
 				snake = [snake[0] + 1, snake[1]];
 				break;
+			default:
+				return;
 		}
 		this.setState({ snakePosition: snake });
+	};
+
+	checkIfEat = () => {
+		const { foodPosition, snakePosition } = this.state;
+		if (
+			snakePosition[0] === foodPosition[1] &&
+			snakePosition[1] === foodPosition[0]
+		) {
+			this.setState({ foodPosition: getRandomCoordinates() });
+		}
 	};
 
 	onCrashWithWall = () => {
@@ -119,7 +139,7 @@ class App extends Component {
 		this.setState(initialState);
 		clearInterval(snakeMoveInterval);
 		clearInterval(timerInterval);
-		this.sendResult();
+		// this.sendResult();
 	};
 
 	goToLeaderboard = () => this.setState({ screen: 1 });
@@ -146,7 +166,10 @@ class App extends Component {
 								seconds={this.state.seconds}
 							/>
 						</div>
-						<GameBoard snakePosition={this.state.snakePosition} />
+						<GameBoard
+							snakePosition={this.state.snakePosition}
+							foodPosition={this.state.foodPosition}
+						/>
 					</div>
 				)}
 				{this.state.screen === 1 && (

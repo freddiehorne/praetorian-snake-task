@@ -19,15 +19,6 @@ const LeaderboardList = (props) => {
 			</ol>
 		</div>
 	);
-
-	// return leaderboardData.map((person, index) => {
-	// 	return (
-	// 		<div className="leaderInfo" key={index}>
-	// 			<p>{person.name}</p>
-	// 			<p>{person.points}</p>
-	// 		</div>
-	// 	);
-	// });
 };
 
 export default LeaderboardList;
