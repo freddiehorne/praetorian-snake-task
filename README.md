@@ -9,4 +9,4 @@ Alternatively run the `npm start` script
 This runs the app in the development mode
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser
 
-Be sure to rin `npm i` before to install some of the goodies I have implemented
+Be sure to run the `npm i` command before to install the tools I have implemented
