@@ -1,15 +1,14 @@
 import { useState, useEffect } from "react";
 import { getRandomCoordinates } from "./utils";
-import { API_URL } from "./config";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
+import { API_URL } from "./config";
 import useInterval from "use-interval";
-import Input from "./components/Input";
-import Timer from "./components/Timer";
-import Buttons from "./components/Buttons";
-import GameBoard from "./components/GameBoard";
-import ApiButton from "./components/ApiButton";
-import Leaderboard from "./components/Leaderboard";
+import axios from "axios";
+import Button from "./components/non_game_play/Button";
+import Input from "./components/non_game_play/Input";
+import Timer from "./components/non_game_play/Timer";
+import GameBoard from "./components/game_play/GameBoard";
+import Leaderboard from "./components/leaderboard/Leaderboard";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
@@ -426,15 +425,6 @@ const App = () => {
 
 	useInterval(() => {
 		if (gameStarted) {
-			onSnakeMove();
-			onCrashWithWall();
-			onCrashWithSelf();
-			checkIfEat();
-		}
-	}, speed);
-
-	useInterval(() => {
-		if (gameStarted) {
 			setSeconds(seconds + 1);
 			if (seconds === 59) {
 				setMinutes(minutes + 1);
@@ -442,6 +432,15 @@ const App = () => {
 			}
 		}
 	}, 1000);
+
+	useInterval(() => {
+		if (gameStarted) {
+			onSnakeMove();
+			onCrashWithWall();
+			onCrashWithSelf();
+			checkIfEat();
+		}
+	}, speed);
 
 	const goToLeaderboard = () => setScreen(1);
 
@@ -451,12 +450,13 @@ const App = () => {
 		<>
 			{screen === 0 && (
 				<div className="main" onKeyDown={onArrowDown} tabIndex="0">
-					<ApiButton goToLeaderboard={goToLeaderboard} />
+					<Button name="Go to Leaderboard" action={goToLeaderboard} />
 					<h1>Welcome, enter your name and click Start</h1>
 					<div className="topContainer">
 						<div>
 							<div className="buttons">
-								<Buttons startGame={startGame} endGame={endGame} />
+								<Button name="Start" action={startGame} />
+								<Button name="Stop" action={endGame} />
 							</div>
 							<Input onInput={onInput} />
 						</div>

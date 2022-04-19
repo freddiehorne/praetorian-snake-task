@@ -8,10 +8,10 @@ const LeaderboardList = (props) => {
 	});
 
 	return (
-		<div>
+		<div className="leaderboardList">
 			<ol>
-				{leaderboardData.map((person, i) => (
-					<li key={i}>
+				{leaderboardData.map((person) => (
+					<li key={person.id}>
 						<p>{person.name}</p>
 						<p>{person.points}</p>
 					</li>

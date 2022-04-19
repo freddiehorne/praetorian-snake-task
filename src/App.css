@@ -103,6 +103,12 @@ input {
   font-size: medium;
 }
 
+.leaderboardList,
+.title {
+  max-width: 800px;
+  margin: auto;
+}
+
 .title {
   display: -webkit-box;
   display: -ms-flexbox;
