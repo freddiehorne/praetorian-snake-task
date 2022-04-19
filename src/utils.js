@@ -6,18 +6,18 @@ export const getRandomCoordinates = () => {
 	return [x, y];
 };
 
-export const initialState = {
-	snakeBlocks: [
-		[25, 30],
-		[25, 31],
-	],
-	foodPosition: getRandomCoordinates(),
-	direction: "RIGHT",
-	input: "",
-	minutes: 0,
-	seconds: 0,
-	screen: 0,
-	appleCount: 0,
-	speed: 150,
-	gameStarted: false,
-};
+// export const initialState = {
+// 	snakeBlocks: [
+// 		[25, 30],
+// 		[25, 31],
+// 	],
+// 	foodPosition: getRandomCoordinates(),
+// 	direction: "RIGHT",
+// 	input: "",
+// 	minutes: 0,
+// 	seconds: 0,
+// 	screen: 0,
+// 	appleCount: 0,
+// 	speed: 150,
+// 	gameStarted: false,
+// };
