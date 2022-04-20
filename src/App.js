@@ -12,236 +12,6 @@ import Leaderboard from "./components/leaderboard/Leaderboard";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
-// class App extends Component {
-// 	state = initialState;
-// 	snakeMoveInterval;
-// 	timerInterval;
-
-// 	componentDidMount() {
-// 		this.getResults();
-// 	}
-
-// 	getResults = async () => {
-// 		try {
-// 			const result = await axios.get(API_URL);
-// 			this.setState({ leaderboardData: result.data });
-// 		} catch (error) {
-// 			console.log(error);
-// 			alert("API is down");
-// 		}
-// 	};
-
-// 	sendResult = () => {
-// 		const { input, minutes, seconds } = this.state;
-// 		try {
-// 			axios.post(API_URL, {
-// 				name: input,
-// 				time: { minutes, seconds },
-// 			});
-// 			console.log("hi");
-// 		} catch (error) {
-// 			console.log(error);
-// 			alert("API is down");
-// 		}
-// 	};
-
-// 	runGame = () => {
-// 		this.onSnakeMove();
-// 		this.onCrashWithWall();
-// 		this.checkIfEat();
-// 		this.onCrashWithSelf();
-// 	};
-
-// 	startGame = () => {
-// 		if (this.state.input.length > 2) {
-// 			this.snakeMoveInterval = setInterval(this.runGame, this.state.speed);
-// 			this.timerInterval = setInterval(() => {
-// 				const { seconds, minutes } = this.state;
-// 				this.setState({ seconds: seconds + 1 });
-// 				if (seconds === 59) {
-// 					this.setState({ minutes: minutes + 1 });
-// 					this.setState({ seconds: 0 });
-// 				}
-// 			}, 1000);
-// 			this.setState({ gameStarted: true });
-// 		}
-// 	};
-
-// 	onInput = (e) => this.setState({ input: e.target.value });
-
-// 	onArrowDown = (e) => {
-// 		const { direction } = this.state;
-// 		switch (e.key) {
-// 			case "ArrowLeft":
-// 				if (direction !== "RIGHT") {
-// 					this.setState({ direction: "LEFT" });
-// 				}
-// 				break;
-// 			case "ArrowRight":
-// 				if (direction !== "LEFT") {
-// 					this.setState({ direction: "RIGHT" });
-// 				}
-// 				break;
-// 			case "ArrowUp":
-// 				if (direction !== "DOWN") {
-// 					this.setState({ direction: "UP" });
-// 				}
-// 				break;
-// 			case "ArrowDown":
-// 				if (direction !== "UP") {
-// 					this.setState({ direction: "DOWN" });
-// 				}
-// 				break;
-// 			default:
-// 				return;
-// 		}
-// 	};
-
-// 	onSnakeMove = () => {
-// 		let blocks = [...this.state.snakeBlocks];
-// 		let head = [...blocks[blocks.length - 1]];
-// 		switch (this.state.direction) {
-// 			case "LEFT":
-// 				head = [head[0], head[1] - 1];
-// 				break;
-// 			case "RIGHT":
-// 				head = [head[0], head[1] + 1];
-// 				break;
-// 			case "UP":
-// 				head = [head[0] - 1, head[1]];
-// 				break;
-// 			case "DOWN":
-// 				head = [head[0] + 1, head[1]];
-// 				break;
-// 			default:
-// 				return;
-// 		}
-// 		blocks.push(head);
-// 		blocks.shift();
-// 		this.setState({ snakeBlocks: blocks });
-// 	};
-
-// 	snakeGrow = () => {
-// 		let extraBlock = [...this.state.snakeBlocks];
-// 		extraBlock.unshift([]);
-// 		this.setState({ snakeBlocks: extraBlock });
-// 	};
-
-// 	increaseSnakeSpeed = () => {
-// 		const { speed } = this.state;
-// 		if (speed > 10) {
-// 			clearInterval(this.snakeMoveInterval);
-// 			this.setState({ speed: speed - 5 });
-// 			this.snakeMoveInterval = setInterval(this.runGame, this.state.speed);
-// 		}
-// 	};
-
-// 	checkIfEat = () => {
-// 		const { foodPosition, snakeBlocks, appleCount } = this.state;
-// 		let head = snakeBlocks[snakeBlocks.length - 1];
-// 		if (head[0] === foodPosition[1] && head[1] === foodPosition[0]) {
-// 			this.setState({ foodPosition: getRandomCoordinates() });
-// 			this.setState({ appleCount: appleCount + 1 });
-// 			this.snakeGrow();
-// 			this.increaseSnakeSpeed();
-// 		}
-// 	};
-
-// 	onCrashWithWall = () => {
-// 		let head = this.state.snakeBlocks[this.state.snakeBlocks.length - 1];
-// 		if (head[0] < 0 || head[0] > 99 || head[1] < 0 || head[1] > 99) {
-// 			this.onGameOver();
-// 		}
-// 	};
-
-// 	onCrashWithSelf = () => {
-// 		let snakeBody = [...this.state.snakeBlocks];
-// 		let head = snakeBody[snakeBody.length - 1];
-// 		snakeBody.pop();
-// 		snakeBody.forEach((block) => {
-// 			if (head[0] === block[0] && head[1] === block[1]) {
-// 				this.onGameOver();
-// 			}
-// 		});
-// 	};
-
-// 	onGameOver = () => {
-// 		const { input, minutes, seconds, appleCount } = this.state;
-// 		toast.success(
-// 			`Game Over ${input}! You lasted ${minutes} minutes and ${seconds} seconds and the snake ate ${appleCount} apples`,
-// 			{
-// 				position: "top-center",
-// 				autoClose: 10000,
-// 				hideProgressBar: false,
-// 				closeOnClick: true,
-// 				pauseOnHover: true,
-// 				draggable: true,
-// 				progress: undefined,
-// 			}
-// 		);
-// 		this.setState(initialState);
-// 		clearInterval(this.snakeMoveInterval);
-// 		clearInterval(this.timerInterval);
-// 		this.sendResult();
-// 	};
-
-// 	goToLeaderboard = () => this.setState({ screen: 1 });
-
-// 	backToGame = () => this.setState({ screen: 0 });
-
-// 	render() {
-// 		return (
-// 			<>
-// 				{this.state.screen === 0 && (
-// 					<div className="main" onKeyDown={this.onArrowDown} tabIndex="0">
-// 						<ApiButton goToLeaderboard={this.goToLeaderboard} />
-// 						<h1>Welcome, enter your name and click Start</h1>
-// 						<div className="topContainer">
-// 							<div>
-// 								<div className="buttons">
-// 									<StartButton startGame={this.startGame} />
-// 									<StopButton stopGame={this.onGameOver} />
-// 								</div>
-// 								<Input onInput={this.onInput} />
-// 							</div>
-// 							<Timer
-// 								minutes={this.state.minutes}
-// 								seconds={this.state.seconds}
-// 							/>
-// 							<h2>Apples: {this.state.appleCount}</h2>
-// 						</div>
-
-// 						<GameBoard
-// 							snakeBlocks={this.state.snakeBlocks}
-// 							foodPosition={this.state.foodPosition}
-// 							gameStarted={this.state.gameStarted}
-// 						/>
-// 						<ToastContainer
-// 							position="top-center"
-// 							autoClose={8000}
-// 							hideProgressBar={false}
-// 							newestOnTop={false}
-// 							closeOnClick
-// 							rtl={false}
-// 							pauseOnFocusLoss
-// 							draggable
-// 							pauseOnHover
-// 						/>
-// 					</div>
-// 				)}
-// 				{this.state.screen === 1 && (
-// 					<Leaderboard
-// 						backToGame={this.backToGame}
-// 						leaderboardData={this.state.leaderboardData}
-// 					/>
-// 				)}
-// 			</>
-// 		);
-// 	}
-// }
-
-// export default App;
-
 const App = () => {
 	const [snakeBlocks, setSnakeBlocks] = useState([[25, 30]]);
 	const [direction, setDirection] = useState("RIGHT");
@@ -264,6 +34,18 @@ const App = () => {
 			alert("API is down");
 		}
 	};
+
+	// const sendResult = () => {
+	// 	try {
+	// 		axios.post(API_URL, {
+	// 			name: input,
+	// 			time: { minutes, seconds },
+	// 			applesEaten: appleCount,
+	// 		});
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// };
 
 	useEffect(() => {
 		getResults();
@@ -336,7 +118,7 @@ const App = () => {
 
 	const resetGame = () => {
 		setSnakeBlocks([[25, 30]]);
-		setDirection("Right");
+		setDirection("RIGHT");
 		setSpeed(150);
 		setFoodPosition(getRandomCoordinates());
 		setInput("");
@@ -362,6 +144,7 @@ const App = () => {
 			}
 		);
 		resetGame();
+		// sendResult();
 	};
 
 	const onCrashWithWall = () => {
@@ -398,31 +181,6 @@ const App = () => {
 		});
 	};
 
-	// useEffect(() => {
-	// 	if (input.length > 1 && gameStarted === true) {
-	// 		const snakeInterval = setInterval(() => {
-	// 			onSnakeMove();
-	// 			onCrashWithWall();
-	// 			onCrashWithSelf();
-	// 			checkIfEat();
-	// 		}, speed);
-	// 		return () => clearInterval(snakeInterval);
-	// 	}
-	// }, [snakeBlocks, gameStarted, foodPosition]);
-
-	// useEffect(() => {
-	// 	if (input.length > 1 && gameStarted === true) {
-	// 		const timerInterval = setInterval(() => {
-	// 			setSeconds(seconds + 1);
-	// 			if (seconds === 59) {
-	// 				setMinutes(minutes + 1);
-	// 				setSeconds(0);
-	// 			}
-	// 		}, 1000);
-	// 		return () => clearInterval(timerInterval);
-	// 	}
-	// }, [gameStarted, seconds, minutes]);
-
 	useInterval(() => {
 		if (gameStarted) {
 			setSeconds(seconds + 1);
@@ -458,7 +216,7 @@ const App = () => {
 								<Button name="Start" action={startGame} />
 								<Button name="Stop" action={endGame} />
 							</div>
-							<Input onInput={onInput} />
+							<Input onInput={onInput} input={input} />
 						</div>
 						<Timer minutes={minutes} seconds={seconds} />
 						<h2>Apples: {appleCount}</h2>

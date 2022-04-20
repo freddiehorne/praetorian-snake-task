@@ -3,7 +3,7 @@ import LeaderboardList from "./LeaderboardList";
 
 const Leaderboard = (props) => {
 	const { backToGame, leaderboardData } = props;
-	return (
+	return { leaderboardData } ? (
 		<>
 			<Button name="Back to Game" action={backToGame} />
 			<div className="title">
@@ -11,6 +11,10 @@ const Leaderboard = (props) => {
 				<h2>Score</h2>
 			</div>
 			<LeaderboardList leaderboardData={leaderboardData} />
+		</>
+	) : (
+		<>
+			<h1>Waiting for results...</h1>
 		</>
 	);
 };
