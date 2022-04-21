@@ -4,10 +4,10 @@ import { toast } from "react-toastify";
 import { API_URL } from "./config";
 import useInterval from "use-interval";
 import axios from "axios";
+import Game from "./components/Game";
 import Leaderboard from "./components/leaderboard/Leaderboard";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import Game from "./components/Game";
 
 const App = () => {
 	const [snakeBlocks, setSnakeBlocks] = useState([[25, 30]]);
@@ -211,7 +211,7 @@ const App = () => {
 		<>
 			{screen === 0 && (
 				<Game
-					onKeyDown={onArrowDown}
+					onArrowDown={onArrowDown}
 					goToLeaderboard={goToLeaderboard}
 					startGame={startGame}
 					endGame={endGame}

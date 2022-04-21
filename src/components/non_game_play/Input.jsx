@@ -1,10 +1,11 @@
 const Input = (props) => {
+	const { onInput, input } = props;
 	return (
 		<input
-			onInput={props.onInput}
 			type="text"
 			placeholder="Minimum 2 characters"
-			value={props.input}
+			onInput={onInput}
+			value={input}
 		/>
 	);
 };

@@ -6,7 +6,7 @@ import { ToastContainer } from "react-toastify";
 
 const Game = (props) => {
 	const {
-		onKeyDown,
+		onArrowDown,
 		goToLeaderboard,
 		startGame,
 		endGame,
@@ -21,7 +21,7 @@ const Game = (props) => {
 	} = props;
 	return (
 		<>
-			<div className="main" onKeyDown={onKeyDown} tabIndex="0">
+			<div className="main" onKeyDown={onArrowDown} tabIndex="0">
 				<Button name="Go to Leaderboard" action={goToLeaderboard} />
 				<h1>Welcome, enter your name and click Start</h1>
 				<div className="topContainer">

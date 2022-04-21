@@ -1,11 +1,11 @@
-import Food from "./Food";
 import Snake from "./Snake";
+import Food from "./Food";
 
 const GameBoard = (props) => {
-	const { snakeBlocks, foodPosition } = props;
+	const { snakeBlocks, foodPosition, gameStarted } = props;
 	return (
 		<div className="gameBoard">
-			{!props.gameStarted && (
+			{!gameStarted && (
 				<h2>Use the arrow or W, A, S and D keys to control the snake</h2>
 			)}
 			<Snake snakeBlocks={snakeBlocks} />
