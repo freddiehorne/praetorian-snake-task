@@ -1,16 +1,13 @@
 import { useState, useEffect } from "react";
 import { getRandomCoordinates } from "./utils";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { API_URL } from "./config";
 import useInterval from "use-interval";
 import axios from "axios";
-import Button from "./components/non_game_play/Button";
-import Input from "./components/non_game_play/Input";
-import Timer from "./components/non_game_play/Timer";
-import GameBoard from "./components/game_play/GameBoard";
 import Leaderboard from "./components/leaderboard/Leaderboard";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import Game from "./components/Game";
 
 const App = () => {
 	const [snakeBlocks, setSnakeBlocks] = useState([[25, 30]]);
@@ -213,38 +210,20 @@ const App = () => {
 	return (
 		<>
 			{screen === 0 && (
-				<div className="main" onKeyDown={onArrowDown} tabIndex="0">
-					<Button name="Go to Leaderboard" action={goToLeaderboard} />
-					<h1>Welcome, enter your name and click Start</h1>
-					<div className="topContainer">
-						<div>
-							<div className="buttons">
-								<Button name="Start" action={startGame} />
-								<Button name="Stop" action={endGame} />
-							</div>
-							<Input onInput={onInput} input={input} />
-						</div>
-						<Timer minutes={minutes} seconds={seconds} />
-						<h2>Apples: {appleCount}</h2>
-					</div>
-
-					<GameBoard
-						snakeBlocks={snakeBlocks}
-						foodPosition={foodPosition}
-						gameStarted={gameStarted}
-					/>
-					<ToastContainer
-						position="top-center"
-						autoClose={8000}
-						hideProgressBar={false}
-						newestOnTop={false}
-						closeOnClick
-						rtl={false}
-						pauseOnFocusLoss
-						draggable
-						pauseOnHover
-					/>
-				</div>
+				<Game
+					onKeyDown={onArrowDown}
+					goToLeaderboard={goToLeaderboard}
+					startGame={startGame}
+					endGame={endGame}
+					onInput={onInput}
+					input={input}
+					minutes={minutes}
+					seconds={seconds}
+					appleCount={appleCount}
+					snakeBlocks={snakeBlocks}
+					foodPosition={foodPosition}
+					gameStarted={gameStarted}
+				/>
 			)}
 			{screen === 1 && (
 				<Leaderboard
