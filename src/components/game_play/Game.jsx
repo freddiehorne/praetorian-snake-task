@@ -1,7 +1,7 @@
-import Button from "./non_game_play/Button";
-import Input from "./non_game_play/Input";
-import Timer from "./non_game_play/Timer";
-import GameBoard from "./game_play/GameBoard";
+import Button from "../non_game_play/Button";
+import Input from "../non_game_play/Input";
+import Timer from "../non_game_play/Timer";
+import GameBoard from "./GameBoard";
 import { ToastContainer } from "react-toastify";
 
 const Game = (props) => {

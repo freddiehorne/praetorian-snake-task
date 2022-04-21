@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { API_URL } from "./config";
 import useInterval from "use-interval";
 import axios from "axios";
-import Game from "./components/Game";
+import Game from "./components/game_play/Game";
 import Leaderboard from "./components/leaderboard/Leaderboard";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
