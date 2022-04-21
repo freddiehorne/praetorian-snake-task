@@ -1,5 +1,6 @@
 const Input = (props) => {
-	const { onInput, input } = props;
+	const { setInput, input } = props;
+	const onInput = (e) => setInput(e.target.value);
 	return (
 		<input
 			type="text"

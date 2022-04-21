@@ -2,7 +2,9 @@ import Button from "../non_game_play/Button";
 import LeaderboardList from "./LeaderboardList";
 
 const Leaderboard = (props) => {
-	const { backToGame, leaderboardData } = props;
+	const { setScreen, leaderboardData } = props;
+	const backToGame = () => setScreen(0);
+
 	return { leaderboardData } ? (
 		<>
 			<Button name="Back to Game" action={backToGame} />

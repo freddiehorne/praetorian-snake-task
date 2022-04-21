@@ -1,7 +1,7 @@
 # FH Snake Game
 
 This game is made with React. It uses Axios to perform Get and Post requests
-I have had to comment out the post request as the API has reached its limit of requests since I made this app but the code works!
+I have had to comment out the axios post request as the API has reached its limit of requests since I made this app but the code works!
 
 Have a go [here](https://fh-snake-game.netlify.app)
 

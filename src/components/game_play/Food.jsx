@@ -1,10 +1,11 @@
 const Food = (props) => {
+	const { foodPosition } = props;
 	return (
 		<div
 			className="food"
 			style={{
-				top: `${props.foodPosition[1]}%`,
-				left: `${props.foodPosition[0]}%`,
+				top: `${foodPosition[1]}%`,
+				left: `${foodPosition[0]}%`,
 			}}
 		></div>
 	);
