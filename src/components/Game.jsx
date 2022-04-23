@@ -43,33 +43,35 @@ const Game = (props) => {
 	};
 
 	const onArrowDown = (e) => {
-		switch (e.key) {
-			case "ArrowLeft":
-			case "a":
-				if (direction !== "RIGHT") {
-					setDirection("LEFT");
-				}
-				break;
-			case "ArrowRight":
-			case "d":
-				if (direction !== "LEFT") {
-					setDirection("RIGHT");
-				}
-				break;
-			case "ArrowUp":
-			case "w":
-				if (direction !== "DOWN") {
-					setDirection("UP");
-				}
-				break;
-			case "ArrowDown":
-			case "s":
-				if (direction !== "UP") {
-					setDirection("DOWN");
-				}
-				break;
-			default:
-				return;
+		if (gameStarted) {
+			switch (e.key) {
+				case "ArrowLeft":
+				case "a":
+					if (direction !== "RIGHT") {
+						setDirection("LEFT");
+					}
+					break;
+				case "ArrowRight":
+				case "d":
+					if (direction !== "LEFT") {
+						setDirection("RIGHT");
+					}
+					break;
+				case "ArrowUp":
+				case "w":
+					if (direction !== "DOWN") {
+						setDirection("UP");
+					}
+					break;
+				case "ArrowDown":
+				case "s":
+					if (direction !== "UP") {
+						setDirection("DOWN");
+					}
+					break;
+				default:
+					return;
+			}
 		}
 	};
 
