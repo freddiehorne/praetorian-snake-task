@@ -1,5 +1,5 @@
 const LeaderboardList = (props) => {
-	const leaderboardData = props.leaderboardData;
+	const { leaderboardData } = props;
 
 	leaderboardData.sort((item1, item2) => {
 		const first = item1.points;
